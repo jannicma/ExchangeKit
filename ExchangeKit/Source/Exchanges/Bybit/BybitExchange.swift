@@ -19,8 +19,8 @@ public class BybitExchange: ExchangeProtocol {
     public func TestConnection() async -> Bool {
         let endpoint = "/v5/market/time"
         do {
-            let _: BybitTimeResponse = try await client.get(endpoint: endpoint, parameters: [:])
-            return true
+            let response: BybitTimeResponse = try await client.get(endpoint: endpoint, parameters: [:])
+            return response.retCode == 0
         } catch {
             return false
         }

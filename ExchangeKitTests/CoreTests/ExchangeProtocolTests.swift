@@ -8,7 +8,7 @@
 import Testing
 @testable import ExchangeKit
 
-struct ExchangeKitTests {
+struct ExchangeProtocolTests {
 
     @Test func MultipleExchangesSameProtocol() async throws {
         var exchanges: [ExchangeProtocol] = []
