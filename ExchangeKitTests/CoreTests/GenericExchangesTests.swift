@@ -17,11 +17,7 @@ struct GenericExchangesTests {
         
         for exchange in exchanges {
             let success = await exchange.TestConnection()
-            #expect(success)
-            if !success {
-                print("Connection failed for \(exchange.name)")
-            }
-            
+            #expect(success, "Connection failed for \(exchange.name)")
         }
     }
 

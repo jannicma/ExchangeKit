@@ -11,11 +11,18 @@ public class BinanceExchange: Exchange {
     private let client: ExchangeClient
     
     public init(apiKey: String, apiSecret: String) {
-        self.client = ExchangeClient(baseURL: "url", apiKey: apiKey, apiSecret: apiSecret)
+        let binanceBaseUrl = URL(string: "https://fapi.binance.com")!
+        self.client = ExchangeClient(baseURL: binanceBaseUrl, apiKey: apiKey, apiSecret: apiSecret)
     }
 
     
     public func TestConnection() async -> Bool {
-        return true
+        let endpoint = "/fapi/v1/ping"
+        do {
+            let _: PingResponse = try await client.get(endpoint: endpoint, parameters: [:])
+            return true
+        } catch {
+            return false
+        }
     }
 }
