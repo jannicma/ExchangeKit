@@ -12,7 +12,7 @@ struct BybitTests {
 
     @Test func BybitSpecificData() async throws {
         let bybit = BybitExchange(apiKey: "", apiSecret: "")
-        #expect(bybit.name == "Bybit")
+        #expect(bybit.exchange.rawValue == "Bybit")
     }
 
 }

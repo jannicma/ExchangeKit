@@ -11,11 +11,11 @@ import Testing
 struct ExchangeKitTests {
 
     @Test func MultipleExchangesSameProtocol() async throws {
-        var exchanges: [Exchange] = []
+        var exchanges: [ExchangeProtocol] = []
         exchanges.append(BinanceExchange(apiKey: "", apiSecret: ""))
         exchanges.append(BybitExchange(apiKey: "", apiSecret: ""))
         
-        #expect(exchanges.first?.name != exchanges.last?.name)
+        #expect(exchanges.first?.exchange.rawValue != exchanges.last?.exchange.rawValue)
     }
 
 }

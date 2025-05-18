@@ -12,7 +12,7 @@ struct BinanceTests {
 
     @Test func BinanceSpecificData() async throws {
         let binance = BinanceExchange(apiKey: "", apiSecret: "")
-        #expect(binance.name == "Binance")
+        #expect(binance.exchange.rawValue == "Binance")
     }
 
 }
