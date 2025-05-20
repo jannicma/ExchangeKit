@@ -25,4 +25,8 @@ public class BybitExchange: ExchangeProtocol {
             return false
         }
     }
+    
+    public func GetKline(baseCurrency: String, quoteCurrency: String, interval: KlineInterval, limit: Int) async -> [Kline] {
+        fatalError("Not implemented")
+    }
 }

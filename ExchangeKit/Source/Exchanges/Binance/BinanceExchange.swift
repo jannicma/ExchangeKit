@@ -25,4 +25,19 @@ public class BinanceExchange: ExchangeProtocol {
             return false
         }
     }
+    
+    public func GetKline(baseCurrency: String, quoteCurrency: String, interval: KlineInterval, limit: Int) async throws -> [Kline] {
+        let endpoint = "/fapi/v1/klines"
+        let parameters = ["symbol": "\(baseCurrency)\(quoteCurrency)",
+                          "interval": interval.rawValue,
+                          "limit": "\(limit)"]
+        
+        do{
+            let binanceKlines: [BinanceKlineResponse] = try await client.get(endpoint: endpoint, parameters: parameters)
+            return binanceKlines.map { $0.asKline }
+        } catch {
+            throw error
+        }
+        
+    }
 }
