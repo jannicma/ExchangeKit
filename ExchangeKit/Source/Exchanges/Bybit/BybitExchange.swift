@@ -26,7 +26,18 @@ public class BybitExchange: ExchangeProtocol {
         }
     }
     
-    public func GetKline(baseCurrency: String, quoteCurrency: String, interval: KlineInterval, limit: Int) async -> [Kline] {
-        fatalError("Not implemented")
+    public func GetKline(baseCurrency: String, quoteCurrency: String, interval: KlineInterval, limit: Int) async throws -> [Kline] {
+        let endpoint = "/v5/market/kline"
+        let parameters = ["symbol": "\(baseCurrency)\(quoteCurrency)",
+                          "interval": interval.bybit,
+                          "limit": "\(limit)"]
+
+        do{
+            let bybitKlines: BybitKlineResponse = try await client.get(endpoint: endpoint, parameters: parameters)
+            return bybitKlines.result.list.map { $0.asKline }
+        }
+        catch {
+            throw error
+        }
     }
 }

@@ -29,7 +29,7 @@ public class BinanceExchange: ExchangeProtocol {
     public func GetKline(baseCurrency: String, quoteCurrency: String, interval: KlineInterval, limit: Int) async throws -> [Kline] {
         let endpoint = "/fapi/v1/klines"
         let parameters = ["symbol": "\(baseCurrency)\(quoteCurrency)",
-                          "interval": interval.rawValue,
+                          "interval": interval.binance,
                           "limit": "\(limit)"]
         
         do{
