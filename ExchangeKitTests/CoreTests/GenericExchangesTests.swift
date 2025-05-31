@@ -35,5 +35,16 @@ struct GenericExchangesTests {
             #expect(candles.last!.close > 0, "Last price is <= 0 for \(exchange.exchange.rawValue)")
         }
     }
+    
+    @Test func GetAllFundingRates() async throws {
+        let exchanges = helper_getAllExchanges()
+        
+        for exchange in exchanges.filter({ $0.exchange != .Binance}) {
+            let fundingRates: [FundingRate] = try await exchange.GetAllFundingRates()
+            
+            let amountNoNextFundingRate = fundingRates.filter {  $0.nextFundingTime == 0 }.count
+            #expect(amountNoNextFundingRate > 0, "Funding rates without next funding time exist for \(exchange.exchange.rawValue)")
+        }
+    }
 
 }

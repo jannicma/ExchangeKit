@@ -9,4 +9,5 @@ public protocol ExchangeProtocol{
     var exchange: Exchange { get }
     func TestConnection() async -> Bool
     func GetKline(baseCurrency: String, quoteCurrency: String, interval: KlineInterval, limit: Int) async throws -> [Kline]
+    func GetAllFundingRates() async throws -> [FundingRate]
 }

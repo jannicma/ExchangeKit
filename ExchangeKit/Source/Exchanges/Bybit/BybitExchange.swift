@@ -40,4 +40,18 @@ public class BybitExchange: ExchangeProtocol {
             throw error
         }
     }
+    
+    public func GetAllFundingRates() async throws -> [FundingRate] {
+        let endpoint = "/v5/market/tickers"
+        let parameters = ["category": "linear"]
+        
+        do{
+            let bybitAllSymbols: BybitTickersResponse = try await client.get(endpoint: endpoint, parameters: parameters)
+            return bybitAllSymbols.result.list.map { $0.asFundingRate }
+        }
+        catch {
+            throw error
+        }
+
+    }
 }

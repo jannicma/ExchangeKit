@@ -38,6 +38,10 @@ public class BinanceExchange: ExchangeProtocol {
         } catch {
             throw error
         }
-        
+    }
+
+    public func GetAllFundingRates() async throws -> [FundingRate] {
+        //there is no endpoint to get all the funding rates
+        return []
     }
 }

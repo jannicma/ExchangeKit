@@ -17,13 +17,15 @@ public class ExchangeClient {
         self.apiSecret = apiSecret
     }
     
-    func get<T: Decodable> (endpoint: String, parameters: [String: String]) async throws -> T {
+    func get<T: Decodable> (endpoint: String, parameters: [String: String] = [:]) async throws -> T {
         guard let url = URL(string: endpoint, relativeTo: baseURL) else{
             throw APIError.invalidUrl(endpoint)
         }
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        components?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }
+        if parameters.count > 0 {
+            components?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }
+        }
         
         guard let finalURL = components?.url else {
             throw APIError.invalidUrl(endpoint)
