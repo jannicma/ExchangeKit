@@ -44,4 +44,22 @@ public class BinanceExchange: ExchangeProtocol {
         //there is no endpoint to get all the funding rates
         return []
     }
+    
+    
+    public func GetFundingRate(baseCurrency: String, quoteCurrency: String) async throws -> FundingRate {
+        let oneMinInterval = KlineInterval.oneMinute
+        let endpoint = "/fapi/v1/premiumIndexKlines"
+        let parameters = ["symbol": "\(baseCurrency)\(quoteCurrency)",
+                          "interval": oneMinInterval.binance,
+                          "limit": "\(480)" ]
+        
+        let normalKlines: [Kline] = try await GetKline(baseCurrency: baseCurrency, quoteCurrency: quoteCurrency, interval: oneMinInterval, limit: 480)
+        let premiumKlines: [BinancePremiumKlinesResponse] = try await client.get(endpoint: endpoint, parameters: parameters)
+        
+        let premiumWithVolume: [VolumePremiumKline] = zip(normalKlines, premiumKlines).map { (normal, premium) in
+            VolumePremiumKline(openTime: premium.openTime, open: premium.open, high: premium.high, low: premium.low, close: premium.close, volume: normal.volume)
+        }
+        
+        return FundingRate(symbol: "abc", price: 123.23, fundingRate: 11.11, nextFundingTime: 234)
+    }
 }

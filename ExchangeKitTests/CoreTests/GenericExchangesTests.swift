@@ -16,6 +16,7 @@ struct GenericExchangesTests {
         return exchanges
     }
     
+    
     @Test func TestConnection() async throws {
         let exchanges = helper_getAllExchanges()
         
@@ -24,6 +25,7 @@ struct GenericExchangesTests {
             #expect(success, "Connection failed for \(exchange.exchange.rawValue)")
         }
     }
+    
     
     @Test func GetKline() async throws {
         let exchanges = helper_getAllExchanges()
@@ -36,6 +38,7 @@ struct GenericExchangesTests {
         }
     }
     
+    
     @Test func GetAllFundingRates() async throws {
         let exchanges = helper_getAllExchanges()
         
@@ -44,6 +47,17 @@ struct GenericExchangesTests {
             
             let amountNoNextFundingRate = fundingRates.filter {  $0.nextFundingTime == 0 }.count
             #expect(amountNoNextFundingRate > 0, "Funding rates without next funding time exist for \(exchange.exchange.rawValue)")
+        }
+    }
+    
+    
+    @Test func GetFundingRateForSymbol() async throws {
+        let exchanges = helper_getAllExchanges()
+
+        for exchange in exchanges {
+            let fundingRate: FundingRate = try await exchange.GetFundingRate(baseCurrency: "BTC", quoteCurrency: "USDT")
+            
+            #expect(fundingRate.nextFundingTime > 0, "Funding rate for BTCUSDT does not exist for \(exchange.exchange.rawValue)")
         }
     }
 
